@@ -1,5 +1,7 @@
 # Britt Lundgren
 # Feb. 28, 2017
+# Cassie Crowe
+# Feb 10, 2018
 #
 # DR12 QSOALS Pipeline
 #
