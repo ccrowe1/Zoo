@@ -1,18 +1,17 @@
 # Cassie Crowe
 # July 12, 2018
+# updated: Dec 6, 2018
 #
 # PullDownFits.py
 #
 # Pulls down fits files based on what redshift range you're looking at and what type of redshift you want to use.
 #
 # To run: python PullDownFits.py, put in what type of redshift you want to query with, the range and the SDSS SAS user and pw
-# SAS user: sdss
-# SAS pw: 2.5-meter
 #
 # Note: FITS files should download size should be around 200 KB. If it's lower (like 4 KB) you might have to download from an earlier SAS site version.
 
 
-def between(value,low,high):  ## function test if given value is between two other values
+def between(value,low,high):  ## function test if given value is between two other values and return boolean
     if value>=low:
         if value<=high:
             return True
@@ -28,11 +27,12 @@ import urllib
 
 if __name__ == '__main__':
 
-    Ztype=str(raw_input("Please input which redshift type you would like to use (VI, Pipe, PCA, or MG): "))
+    Ztype=str(raw_input("Please input exactly which redshift type you would like to use (VI, Pipe, PCA, or MG): "))
     minz=float(raw_input("Please input your minimum redshift value: "))
     maxz=float(raw_input("Please input your maximum redshift value: "))
+    FITSlocal=str(raw_input("Please input the full location of your SDSS fits file: "))
 
-    hdulist = fits.open('//Users/sumrsch/Summer_Research/DR14Q_v4_4.fits') ## location of catalog
+    hdulist = fits.open(FITSlocal) ## takes user input (location of catalog) and opens fits file
     tbdata = hdulist[1].data
     tb1=tbdata[tbdata["MJD"]>56870] ## all new observations
 
@@ -94,7 +94,8 @@ if __name__ == '__main__':
                 zmg.append(Zmg[i])
                 
     print("Number of spectra in your query: "+str(len(n)))
-    
+    pullFrom=str(raw_input("Please input the url where you would like to pull the spectra from: "))
+    placeIn=str(raw_input("Please input what directory you would like to place the files in: "))
     
     for i in range(len(p)):
         if md[i]>0 & pd[i] in p:                             ## if there is a duplicate spec and it's in the non-dup arrays...
@@ -102,7 +103,7 @@ if __name__ == '__main__':
                 print("DUPLICATE: ",pd[i], md[i], fd[i])        ##...print what dup PMF is...
                 continue                                        ##...then skip
         pfm=str(p[i])+'-'+str(m[i])+'-'+str(f[i]).zfill(4)
-        url='https://data.sdss.org/sas/ebosswork/eboss/spectro/redux/v5_10_4/spectra/lite/'+str(p[i])+'/spec-'+pfm+'.fits'  ## This is where the fits are being pulled from, change as needed
+        url=pullFrom+str(p[i])+'/spec-'+pfm+'.fits'  ## This is where the fits are being pulled from, change as needed
         print(pfm)
-        place=os.path.join('/Users/sumrsch/Summer_Research/TestPull/BI!=0/','spec-'+pfm+'.fits')  ## This is where the fits are being placed on the computer, change as needed
+        place=os.path.join(placeIn,'spec-'+pfm+'.fits')  ## This is where the fits are being placed on the computer, change as needed
         urllib.urlretrieve(url,place)
