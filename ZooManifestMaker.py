@@ -70,7 +70,8 @@ for i in range(len(CIV1)):       ## for-loop no.4: assigns plate, fiber, mjd, re
     z.append(zf["Z_VI"])
     B.append(zf["BI_CIV"])
     
-f=open("QSOflagManifestCALIB.csv","wb") ## name of final manifest
+Mani=str(raw_input("Please input the name of your final CSV: "))
+f=open(Mani+".csv","wb") ## name of final manifest
 f.write('id,image1,image2,Plate,Fiber_ID,MJD,BI_CIV,z_vi\n') ## Zooniverse requires id and image1 for show one image.
 ## Add image2, image3 etc for additional image to be shown together and whatever other info to be visable to volunteers
 writer=csv.writer(f,dialect='excel',delimiter=',')
