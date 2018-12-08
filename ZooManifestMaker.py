@@ -1,5 +1,6 @@
 # Cassie Crowe
-# July 15, 2018
+# Created: July 15, 2018
+# Last Update: Dec 7, 2018
 #
 # ZooManifestMaker.py
 #
